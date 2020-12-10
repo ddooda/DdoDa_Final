@@ -64,7 +64,7 @@ public class RequireStoreLogic implements RequireStore {
 	@Override
 	public int getListCount() {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("RequireMapper.getListCount");
+		return sqlSession.selectOne("RequireMapper.getRequireListCount");
 	}
 
 	@Override

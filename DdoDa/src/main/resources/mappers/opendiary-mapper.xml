@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="OpendiaryMapper">
+	<resultMap type="Opendiary" id="odResultMap">
+		<result property="opendiaryNo" column="OPENDIARY_NO"/>
+		<result property="opendiaryTitle" column="OPENDIARY_TITLE"/>
+		<result property="opendiaryContents" column="OPENDIARY_CONTENTS"/>
+		<result property="opendiaryDate" column="OPENDIARY_DATE"/>
+		<result property="opendiaryModifyDate" column="OPENDIARY_MODIFY_DATE"/>
+		<result property="opendiaryViews" column="OPENDIARY_VIEWS"/>
+		<result property="userId" column="USERID"/>
+	</resultMap>
+	
+	<select id="odList" resultMap="odResultMap">
+		SELECT * FROM OPENDIARY ORDER BY OPENDIARY_NO
+	</select>
+	<select id="getListCount" resultType="int">
+		SELECT COUNT(*) FROM OPENDIARY
+	</select>
+</mapper>
