@@ -3,32 +3,33 @@ package com.kh.ddoda.require.domain;
 import java.sql.Date;
 
 public class Require {
+
 	private int requireNo;
-	private String userId;
 	private String requireTitle;
+	private String requireContents;
 	private Date requireDate;
 	private Date requireModifyDate;
-	private String requireContents;
 	private String requireYN;
-	private String requireOriginalFilename;
-	private String requireRenameFilename;
+	private String userId;
+	private String originalFilename;
+	private String renameFilename;
+	private int rCount;
 	
-	public Require() {
-		super();
-	}
+	public Require() {}
 
-	public Require(int requireNo, String userId, String requireTitle, Date requireDate, Date requireModifyDate,
-			String requireContents, String requireYN, String requireOriginalFilename, String requireRenameFilename) {
+	public Require(int requireNo, String requireTitle, String requireContents, Date requireDate, Date requireModifyDate,
+			String requireYN, String userId, String originalFilename, String renameFilename, int rCount) {
 		super();
 		this.requireNo = requireNo;
-		this.userId = userId;
 		this.requireTitle = requireTitle;
+		this.requireContents = requireContents;
 		this.requireDate = requireDate;
 		this.requireModifyDate = requireModifyDate;
-		this.requireContents = requireContents;
 		this.requireYN = requireYN;
-		this.requireOriginalFilename = requireOriginalFilename;
-		this.requireRenameFilename = requireRenameFilename;
+		this.userId = userId;
+		this.originalFilename = originalFilename;
+		this.renameFilename = renameFilename;
+		this.rCount = rCount;
 	}
 
 	public int getRequireNo() {
@@ -39,20 +40,20 @@ public class Require {
 		this.requireNo = requireNo;
 	}
 
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
 	public String getRequireTitle() {
 		return requireTitle;
 	}
 
 	public void setRequireTitle(String requireTitle) {
 		this.requireTitle = requireTitle;
+	}
+
+	public String getRequireContents() {
+		return requireContents;
+	}
+
+	public void setRequireContents(String requireContents) {
+		this.requireContents = requireContents;
 	}
 
 	public Date getRequireDate() {
@@ -71,14 +72,6 @@ public class Require {
 		this.requireModifyDate = requireModifyDate;
 	}
 
-	public String getRequireContents() {
-		return requireContents;
-	}
-
-	public void setRequireContents(String requireContents) {
-		this.requireContents = requireContents;
-	}
-
 	public String getRequireYN() {
 		return requireYN;
 	}
@@ -87,27 +80,45 @@ public class Require {
 		this.requireYN = requireYN;
 	}
 
-	public String getRequireOriginalFilename() {
-		return requireOriginalFilename;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setRequireOriginalFilename(String requireOriginalFilename) {
-		this.requireOriginalFilename = requireOriginalFilename;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public String getRequireRenameFilename() {
-		return requireRenameFilename;
+	public String getOriginalFilename() {
+		return originalFilename;
 	}
 
-	public void setRequireRenameFilename(String requireRenameFilename) {
-		this.requireRenameFilename = requireRenameFilename;
+	public void setOriginalFilename(String originalFilename) {
+		this.originalFilename = originalFilename;
+	}
+
+	public String getRenameFilename() {
+		return renameFilename;
+	}
+
+	public void setRenameFilename(String renameFilename) {
+		this.renameFilename = renameFilename;
+	}
+
+	public int getrCount() {
+		return rCount;
+	}
+
+	public void setrCount(int rCount) {
+		this.rCount = rCount;
 	}
 
 	@Override
 	public String toString() {
-		return "Require [requireNo=" + requireNo + ", userId=" + userId + ", requireTitle=" + requireTitle
-				+ ", requireDate=" + requireDate + ", requireModifyDate=" + requireModifyDate + ", requireContents="
-				+ requireContents + ", requireYN=" + requireYN + ", requireOriginalFilename=" + requireOriginalFilename
-				+ ", requireRenameFilename=" + requireRenameFilename + "]";
+		return "Require [requireNo=" + requireNo + ", requireTitle=" + requireTitle + ", requireContents="
+				+ requireContents + ", requireDate=" + requireDate + ", requireModifyDate=" + requireModifyDate
+				+ ", requireYN=" + requireYN + ", userId=" + userId + ", originalFilename=" + originalFilename
+				+ ", renameFilename=" + renameFilename + ", rCount=" + rCount + "]";
 	}
+
+	
 }
