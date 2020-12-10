@@ -212,7 +212,7 @@
 	<div id="instructorInfo">
 		
 	</div>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68326c8ad1d84bdc1f10d98cebe524dc&libraries=services"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=키넣기&libraries=services"></script>
 	<script>
 		var slideIndex = 1;
 		showSlides(slideIndex);
