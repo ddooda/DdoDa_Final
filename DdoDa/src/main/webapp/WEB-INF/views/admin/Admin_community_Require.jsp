@@ -16,25 +16,7 @@
 
 	<!-- content -->	
 	<div class="content">
-	<div class="menub">
-		<ul>
-			<li class="dropdowns"><a href="#">커뮤니티</a>
-				<ul class="dropdown-contents" style="text-align: center;">
-					<li><a href="#">요청사항</a></li>
-					<li><a href="#">공지사항</a></li>
-					<li><a href="#">채팅</a></li>
-				</ul>
-			</li>
-			<li><a href="#">운동시설</a></li>
-			<li><a href="#">음식칼로리</a></li>
-			<li class="dropdowns"><a href="#">회원관리</a>
-				<ul class="dropdown-contents" style="text-align: center;">
-					<li><a href="#">상세보기</a></li>
-					<li><a href="#">탈퇴결정</a></li>
-				</ul>
-			</li>
-		</ul>
-	</div>
+	<jsp:include page="/WEB-INF/views/common/admin_menubar.jsp"/>
 	<div class="main">
 		<div class="main-name">
 			<h2 class="main-name-h2">요청사항</h2>
@@ -63,11 +45,14 @@
 					<td align="center">${require.userId }</td>
 					<td align="center">${require.requireDate }</td>
 					<td align="center">
-						<c:url var="requireUpdate" value="requireUpdateView.doa">
+						<c:url var="requireUpdate" value="adminRequireUpdateView.doa">
 							<c:param name="requireNo" value="${require.requireNo }"/>
 							<c:param name="page" value="${pi.currentPage }"/>
 						</c:url>
-						<a href="${requireUpdate }">수정</a> / <a href="#">삭제</a>
+						<c:url var="requireDelete" value="adminRequireDelete.doa">
+							<c:param name="requireNo" value="${require.requireNo }"/>
+						</c:url>
+						<a href="${requireUpdate }">수정</a> / <a href="${requireDelete }">삭제</a>
 					</td>
 				</tr>
 			</c:forEach>

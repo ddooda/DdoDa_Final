@@ -87,6 +87,7 @@
 		</div>
 		<form action="addReply.doa" method="post">
 			<input type="hidden" name="requireNo" value="${require.requireNo }">
+			<input type="hidden" name="userId" value="${loginUser.userId }">
 			<div style="width:450px; height:530px; border:1px solid green; float:left;">
 				<div class="card text-dark bg-light mb-3" style="width: 100%; height: 100%;">
 				  <div class="card-header">제목 : 
@@ -97,14 +98,7 @@
 				  		<input type="text" name="rComTitle">
 				  	</c:if>
 				  </div>
-				  <div class="card-header">작성자 : 
-				  	<c:if test="${!empty reply.userId }">
-				  		${reply.userId }
-				  	</c:if>
-				  	<c:if test="${empty reply.userId }">
-				  		<input type="text" name="userId">
-				  	</c:if>
-				  </div>
+				  <div class="card-header">작성자 : ${loginUser.userId }</div>
 				  <div class="card-body">
 				  	<c:if test="${!empty reply.rComContents }">
 				  		<h5 class="card-title">${reply.rComContents }</h5>
