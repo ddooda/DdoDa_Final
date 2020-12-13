@@ -70,6 +70,12 @@ public class MemberStoreLogic implements MemberStore{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Member selectOne(String userId) {
+		
+		return sqlSession.selectOne("memberMapper.selectOne", userId );
+	}
 	
 
 }

@@ -64,4 +64,15 @@ public interface MemberStore {
 	 * @return Member
 	 */
 	public Member FindId(String email);
+	
+	
+	/**
+	 * 회원정보 불러오기
+	 * @param userId
+	 * @return Member
+	 */
+	public Member selectOne(String userId);
+	
+	
+	
 }

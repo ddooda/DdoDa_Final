@@ -67,4 +67,10 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Member selectOne(String userId) {
+	
+		return store.selectOne(userId);
+	}
 }

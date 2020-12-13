@@ -32,6 +32,14 @@ VALUES (#{userId}, #{passWord}, #{userName}, #{gender}, #{email}, #{phone}, 'N',
 </update>
 
 
+
+<select id="selectOne" resultMap="memberResultMap">
+
+SELECT * FROM MEMBER
+WHERE USERID = #{userId}
+</select>
+
+
 <!-- 회원가입 중 아이디 중복검사 -->
 
 <!-- <select id="idCheck" resultType="int">

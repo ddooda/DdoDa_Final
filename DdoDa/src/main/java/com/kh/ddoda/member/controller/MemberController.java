@@ -47,7 +47,7 @@ public class MemberController {
 	public String memberLogout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.invalidate();
-		return "redirect:home.doa";
+		return "home";
 		
 		
 	}
@@ -77,7 +77,9 @@ public class MemberController {
 	
 	//회원정보 수정,탈퇴기능이 있는   마이페이지 뷰
 	@RequestMapping(value="myInfo.doa", method=RequestMethod.GET)
-	public String myInfoView() {
+	public String myInfoView(String userId, Model model) {
+		model.addAttribute("member", service.selectOne(userId));
+		
 		return "Member/mypage";
 		
 	}
@@ -102,8 +104,9 @@ public class MemberController {
 	//회워탈퇴 페이지 뷰
 	
 	/*
-	 * @RequestMapping(value="deleteMember.doa",method=RequestMethod.GET) public
-	 * String memberBreak() { return "Member/memberbreak"; }
+	 * @RequestMapping(value="deleteMember.doa",method=RequestMethod.GET) 
+	 * public  String memberBreak() { 
+	 * return "Member/memberbreak"; }
 	 * 
 	 */
 	
