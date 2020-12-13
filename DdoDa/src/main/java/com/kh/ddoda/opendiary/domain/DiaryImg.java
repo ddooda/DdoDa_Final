@@ -2,28 +2,28 @@ package com.kh.ddoda.opendiary.domain;
 
 public class DiaryImg {
 
-	private int userId;
+	private String userId;
 	private String imgPath;
 	private String imgRenamePath;
 	private int diaryNo;
-	private int OpendiaryNo;
+	private int opendiaryNo;
 	
 	public DiaryImg() {}
 
-	public DiaryImg(int userId, String imgPath, String imgRenamePath, int diaryNo, int opendiaryNo) {
+	public DiaryImg(String userId, String imgPath, String imgRenamePath, int diaryNo, int opendiaryNo) {
 		super();
 		this.userId = userId;
 		this.imgPath = imgPath;
 		this.imgRenamePath = imgRenamePath;
 		this.diaryNo = diaryNo;
-		OpendiaryNo = opendiaryNo;
+		this.opendiaryNo = opendiaryNo;
 	}
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
@@ -52,19 +52,17 @@ public class DiaryImg {
 	}
 
 	public int getOpendiaryNo() {
-		return OpendiaryNo;
+		return opendiaryNo;
 	}
 
 	public void setOpendiaryNo(int opendiaryNo) {
-		OpendiaryNo = opendiaryNo;
+		this.opendiaryNo = opendiaryNo;
 	}
 
 	@Override
 	public String toString() {
 		return "DiaryImg [userId=" + userId + ", imgPath=" + imgPath + ", imgRenamePath=" + imgRenamePath + ", diaryNo="
-				+ diaryNo + ", OpendiaryNo=" + OpendiaryNo + "]";
+				+ diaryNo + ", opendiaryNo=" + opendiaryNo + "]";
 	}
-	
-	
-	
+
 }

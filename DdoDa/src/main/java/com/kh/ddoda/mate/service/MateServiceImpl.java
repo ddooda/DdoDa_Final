@@ -51,13 +51,13 @@ public class MateServiceImpl implements MateService{
 	@Override
 	public int updateMate(Mate mate) {
 		// TODO Auto-generated method stub
-		return 0;
+		return mStore.updateMate(mate);
 	}
 
 	@Override
 	public int deleteMate(int mateNo) {
 		// TODO Auto-generated method stub
-		return 0;
+		return mStore.deleteMate(mateNo);
 	}
 
 	@Override
@@ -112,6 +112,30 @@ public class MateServiceImpl implements MateService{
 	public ArrayList<MateComment> selectMateCom(int mateNo) {
 		// TODO Auto-generated method stub
 		return mStore.selectMateCom(mateNo);
+	}
+
+	@Override
+	public int deleteAllmyMate(int mateNo) {
+		// TODO Auto-generated method stub
+		return mStore.deleteAllmyMate(mateNo);
+	}
+
+	@Override
+	public int deleteAllMateCom(int mateNo) {
+		// TODO Auto-generated method stub
+		return mStore.deleteAllMateCom(mateNo);
+	}
+
+	@Override
+	public int insertMateComReply(MateComment mateCom) {
+		// TODO Auto-generated method stub
+		return mStore.insertMateComReply(mateCom);
+	}
+
+	@Override
+	public ArrayList<MateComment> selectMateComReply(int mateComRefNo) {
+		// TODO Auto-generated method stub
+		return mStore.selectMateComReply(mateComRefNo);
 	}
 
 }

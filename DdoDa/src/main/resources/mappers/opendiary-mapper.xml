@@ -10,6 +10,12 @@
 		<result property="opendiaryViews" column="OPENDIARY_VIEWS"/>
 		<result property="userId" column="USERID"/>
 	</resultMap>
+	<resultMap type="DiaryImg" id="imgResultMap">
+		<result property="imgPath" column="IMAGE_PATH"/>
+		<result property="imgRenamePath" column="IMAGE_RENAME_PATH"/>
+		<result property="diaryNo" column="DIARY_NO"/>
+		<result property="opendiaryNo" column="OPENDIARY_NO"/>
+	</resultMap>
 	
 	<select id="odList" resultMap="odResultMap">
 		SELECT * FROM OPENDIARY ORDER BY OPENDIARY_NO
@@ -17,4 +23,15 @@
 	<select id="getListCount" resultType="int">
 		SELECT COUNT(*) FROM OPENDIARY
 	</select>
+	<insert id="insertDiary">
+		INSERT INTO OPENDIARY VALUES(SEQ_OPENDIARY.NEXTVAL,
+		#{opendiaryTitle}, #{opendiaryContents}, SYSDATE, 
+		SYSDATE,DEFAULT, #{userId})
+	</insert>
+	<insert id="insertImgFile" parameterType="hashmap">
+		INSERT INTO DIARY_IMG VALUES
+		(#{userId}, #{imgPath},
+		#{imgRenamePath}, 0, SEQ_OPENDIARY.CURRVAL)
+	</insert>
+	
 </mapper>

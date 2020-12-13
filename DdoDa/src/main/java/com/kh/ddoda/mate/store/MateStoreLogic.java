@@ -52,14 +52,15 @@ public class MateStoreLogic implements MateStore{
 
 	@Override
 	public int updateMate(Mate mate) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.update("MateMapper.updateMate", mate);
+		System.out.println(result);
+		return result;
 	}
 
 	@Override
 	public int deleteMate(int mateNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.delete("MateMapper.deleteMate", mateNo);
+		return result;
 	}
 
 	@Override
@@ -114,6 +115,30 @@ public class MateStoreLogic implements MateStore{
 	public ArrayList<MateComment> selectMateCom(int mateNo) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("MateMapper.selectMateCom", mateNo);
+	}
+
+	@Override
+	public int deleteAllmyMate(int mateNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("MateMapper.deleteAllmyMate", mateNo);
+	}
+
+	@Override
+	public int deleteAllMateCom(int mateNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("MateMapper.deleteAllMateCom", mateNo);
+	}
+
+	@Override
+	public int insertMateComReply(MateComment mateCom) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("MateMapper.insertMateComReply", mateCom);
+	}
+
+	@Override
+	public ArrayList<MateComment> selectMateComReply(int mateComRefNo) {
+		ArrayList<MateComment> replyList = (ArrayList)sqlSession.selectList("MateMapper.selectMateComReply", mateComRefNo);
+		return replyList;
 	}
 	
 }

@@ -44,7 +44,7 @@
 			</c:if>
 			<c:forEach items="${opendiaryList }" var="odList">
 				<tr>
-					<td>img</td>
+					<td><img src="/resources/opendiaryUploadFiles/${opendairy.userId }/${diaryImg.imgRenamePath}"></td>
 					<td>${odList.opendiaryTitle }</td>
 					<td>${odList.userId }</td>
 					<td>${odList.opendiaryDate }</td>

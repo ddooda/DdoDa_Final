@@ -54,7 +54,7 @@
 		#{mateComContents}, SYSDATE, SYSDATE, #{mateNo}, #{userId})
 	</insert>
 	<select id="selectMateCom"  resultMap="mateComResultMap">
-		SELECT * FROM MATE_COMMENTS WHERE MATE_NO = #{mateNo}
+		SELECT * FROM MATE_COMMENTS WHERE MATE_NO = #{mateNo} AND MATECOMMENTS_REF_NO = 0
 		ORDER BY MATE_NO DESC
 	</select>
 	<insert id="insertMymate">
@@ -62,5 +62,31 @@
 	</insert>
 	<select id="selectMymate" resultMap="myMateResultMap">
 		SELECT * FROM MYMATE WHERE MATE_NO = #{mateNo}
+	</select>
+	<!-- 메이트 모집글 삭제 -->
+	<delete id="deleteMate">
+		DELETE FROM MATE WHERE MATE_NO = #{mateNo}
+	</delete>
+	<delete id="deleteAllmyMate">
+		DELETE FROM MYMATE WHERE MATE_NO = #{mateNo}
+	</delete>
+	<delete id="deleteAllMateCom">
+		DELETE FROM MATE_COMMENTS WHERE MATE_NO = #{mateNo}
+	</delete>
+	<!-- 메이트 모집글 수정 -->
+	<update id="updateMate">
+		UPDATE MATE SET MATE_TITLE = #{mateTitle}, MATE_CONTENTS = #{mateContents}, MATE_REQUIRENO = #{mateRequireNo},
+		MATE_PLACE = #{matePlace}, MATE_DETAILADDR = #{detailAddr}, MATE_ROADADDR = #{roadAddr}, MATE_SIDO = #{sido},
+		MATE_LATLONG = #{latLong} WHERE MATE_NO = #{mateNo}
+	</update>
+	<!-- 메이트 대댓글 작성 -->
+	<insert id="insertMateComReply">
+		INSERT INTO MATE_COMMENTS VALUES(SEQ_MATE_COMMENTS.NEXTVAL, #{mateComRefNo},
+		#{mateComContents}, SYSDATE, SYSDATE, #{mateNo}, #{userId})
+	</insert>
+	<!-- 대댓글 리스트 -->
+	<select id="selectMateComReply">
+		SELECT * FROM MATE_COMMENTS WHERE MATE_NO = #{mateNo} AND MATECOMMENTS_REF_NO = #{mateComRefNo}
+		ORDER BY MATE_NO DESC
 	</select>
 </mapper>
