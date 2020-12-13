@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -128,6 +129,34 @@ public class MateController {
 		System.out.println(mateComList);
 	}
 	
+	//메이틑 대댓글 등록
+	@ResponseBody
+	@RequestMapping(value="addMateComReply.doa", method=RequestMethod.POST)
+	public String addMateComReply ( MateComment mateCom, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String userId = loginUser.getUserId();
+		mateCom.setUserId(userId);
+		int result = mService.insertMateComReply(mateCom);
+		if(result > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+	
+//	//메이트 대댓글 리스트
+		@RequestMapping(value="mateComReplyList.doa", method=RequestMethod.GET)
+		public void mateComReply(HttpServletResponse response, @RequestParam("mateNo") int mateNo, 
+							@RequestParam("mateComRefNo") int mateComRefNo) throws Exception {
+			ArrayList<MateComment> mateComReplyList = mService.selectMateComReply(mateComRefNo);
+			for(MateComment mateCom : mateComReplyList) {
+				mateCom.setMateComContents(URLEncoder.encode(mateCom.getMateComContents(), "utf-8"));
+			}
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			gson.toJson(mateComReplyList, response.getWriter());
+			System.out.println(mateComReplyList);
+		}
+	
 	//참여
 	@ResponseBody
 	@RequestMapping(value="addMymate.doa", method=RequestMethod.POST)
@@ -154,5 +183,55 @@ public class MateController {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(mymateList, response.getWriter());
 	}
-
+	//메이트 모집글 수정 화면
+	@RequestMapping(value="mateUpdateView.doa", method=RequestMethod.GET)
+	public ModelAndView mateUpdateView (@RequestParam("mateNo") int mateNo, 
+										@RequestParam("page") Integer page, ModelAndView mv) {
+		mv.addObject("mate",  mService.selectOneMate(mateNo))
+			.addObject("currentPage", page)
+			.setViewName("mate/mateUpdate");
+		return mv;
+	}
+	
+	//메이트 모집글 수정
+	@RequestMapping(value="mateUpdate.doa", method = RequestMethod.POST)
+	public ModelAndView mateUpdate(ModelAndView mv, @ModelAttribute Mate mate,
+									HttpServletRequest request, @RequestParam("page") Integer page) {
+		int result = mService.updateMate(mate);
+//		HttpSession session = request.getSession();
+//		Member sessionUser = (Member)session.getAttribute("loginUser");
+		System.out.println(result);
+		if(result > 0) {
+			mv.addObject("page", page)
+				.setViewName("redirect:mateDetail.doa?mateNo="+mate.getMateNo());
+		} else {
+			mv.addObject("msg", "수정 실패")
+				.setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
+	//메이트 모집글 삭제
+	@RequestMapping(value="mateDelete.doa", method=RequestMethod.GET)
+	public String mateDelete(int mateNo,  HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession();
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		//메이트 리스트 삭제
+		ArrayList<Mymate> mymateList = mService.selectMymate(mateNo);
+		if( !mymateList.isEmpty()) {
+			mService.deleteAllmyMate(mateNo);
+		}
+		//댓글 리스트 삭제
+		ArrayList<MateComment> mateCommentList = mService.selectMateCom(mateNo);
+		if(!mateCommentList.isEmpty()) {
+			mService.deleteAllMateCom(mateNo);
+		}
+		int result = mService.deleteMate(mateNo);
+		if(result > 0) {
+			return "redirect:mateList.doa";
+		} else {
+			model.addAttribute("msg", "메이트 모집글 삭제 실패");
+			return "common/errorPage";
+		}
+	}
 }

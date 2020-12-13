@@ -30,7 +30,7 @@ public class MemberController {
 		
 		if(loginUser != null) {
 			session.setAttribute("loginUser", loginUser);
-			mv.setViewName("home");
+			mv.setViewName("index");
 			
 		}else {
 			mv.addObject("msg","로그인 실패");

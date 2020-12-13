@@ -40,6 +40,7 @@
 				<c:set var="llat" value="${ fn:substringBefore(position, '_')}" />
 				<c:set var="llng" value="${ fn:substringAfter(position, '_')}" />
 				
+				<c:set var="loginUserId" value="${loginUser.userId }" />
 					
 				<tr align="center" valign="middle"> <!-- valign : 수직 가운데 -->
 					<td height="15" width="70">제목</td>
@@ -54,17 +55,22 @@
 					<td>${mateOne.mateDate }</td>
 				</tr>
 				<tr>
-					<td>모집 최소인원</td>
-					<td>${ min }</td>
+					<td>모집 인원</td>
+					<td>최소인원 : ${ min }, 최대인원 ${max }</td>
 				</tr>
-				<tr>
-					<td>모집 최대인원</td>
-					<td>${ max }</td>
-				</tr>
-				<tr>
-					<td rowspan="2">모임 장소</td>
-					<td>${mateOne.matePlace }</td>
-				</tr>
+				<c:if test="${ mateOne.detailAddr != null}">
+					<tr>
+						<td rowspan="3">모임 장소</td>
+						<td>${mateOne.matePlace }</td>
+					<tr>
+						<td>${mateOne.detailAddr }</td>
+					</tr>
+				</c:if>
+				<c:if test="${ mateOne.detailAddr == null}">
+					<tr>
+						<td rowspan="2">모임 장소</td>
+						<td>${mateOne.matePlace }</td>
+				</c:if>
 				<tr>
 					<td><div id="map" style="width:100%;height:200px;margin-top:10px;">
 					</div></td>
@@ -77,17 +83,29 @@
 				<c:url var="mateList" value="mateList.doa">
 					<c:param name="page" value="${currentPage }"></c:param>
 				</c:url>
-					<a href="#">수정하기</a>
-					<a href="#">삭제하기</a>
+				<c:url var="mateDelete" value="mateDelete.doa">
+					<c:param name="mateNo" value="${mateOne.mateNo }"></c:param>
+				</c:url>
+				<c:url var="mateUpdateView" value="mateUpdateView.doa">
+					<c:param name="mateNo" value="${mateOne.mateNo }"></c:param>
+					<c:param name="page" value="${currentPage }"></c:param>
+				</c:url>
+					<c:if test="${ loginUser.userId == mateOne.userId}">
+						<button tpye="button" onclick="askUpdate()">수정하기</button>
+						<button tpye="button" onclick="askDelete()">삭제하기</button>
+					</c:if>
 					<a href="${mateList }">목록으로</a>
 				</tr>
 			</table>
 		</div>
-		<br><br><br><br><br><br>
-		<c:if test="${ !empty sessionScope.loginUser }">
-		<div style="width:80px;float:left;">
-			<input type="button" name="attendBtn" value="참여하기" class="btn btn-primary" >
 		</div>
+		<br><br><br><br><br><br><br><br><br>
+		<c:if test="${ !empty sessionScope.loginUser }">
+		<c:if test="${ loginUser.userId != mateOne.userId }">
+			<div style="width:80px;float:left;">
+				<input type="button" name="attendBtn" value="참여하기" class="btn btn-primary" >
+			</div>
+		</c:if>
 		</c:if>
 		<c:if test="${ empty sessionScope.loginUser  }">
 		<div style="width:80px;float:left;">
@@ -95,7 +113,6 @@
 		</div>
 		</c:if>
 			<table align="center" id="mymateTb" style="width:80%;margin-left:0px;margin-right:0px;">
-				<input type="text" id="" value="" >
 				<tbody>
 					<tr>
 						<td></td>
@@ -113,13 +130,13 @@
 			<tr>
 				<c:if test="${ !empty sessionScope.loginUser }">
 				<td><textarea rows="3" cols="55" id="mateComContents" placeholder="내용을 입력해주세요" ></textarea></td>
+				<td>
+					<button id="mateSubmit" >등록하기</button>
+				</td>
 				</c:if>
 				<c:if test="${ empty sessionScope.loginUser }">
 				<td><textarea rows="3" cols="55" id="mateComContents" placeholder="로그인 후 이용해주세요" readonly ></textarea></td>
 				</c:if>
-				<td>
-					<button id="mateSubmit">등록하기</button>
-				</td>
 			</tr>
 		</table>
 		
@@ -127,12 +144,21 @@
 		<table align="center" width="500" border="1" cellspacing="0" id="mateComTb">
 			<thead>
 			<tr>
-				<td colspan="3"><b id="mateComCount"></b></td>
+				<td colspan="5"><b id="mateComCount"></b></td>
 			</tr>
 			</thead>
 			<tbody>
-				<tr><td><button></button></td></tr>
+				<tr>
+				<td>
+				</td>
+				<table align="center" width="500" border="1" cellspacing="0" id="mateComReplyInsertTb">
+						<tr><td></td></tr>
+				</table>
+				</tr>
 			</tbody>
+		</table>
+		<table align="center" width="500" border="1" cellspacing="0" id="mateComReplyTb">
+				<tr><td></td></tr>
 		</table>
 	
 		<!-- end content -->
@@ -143,6 +169,24 @@
 	<!-- end footer -->
 	
 	<script>
+	//--------게시글 수정하기 
+	function askUpdate() {
+		var askUpdate = confirm("수정하시겠습니까?");
+		if(askUpdate) {
+			location.href='${mateUpdateView}';
+		} else {
+			return false;
+		}
+	}
+	//--------게시글 삭제하기 
+	function askDelete() {
+		var askDelete = confirm("정말 삭제하시겠습니까?");
+		if(askDelete) {
+			location.href='${mateDelete}';
+		} else {
+			return false;
+		}
+	}
 	//--------참여하기 
 	function loginquest() {
 		alert("로그인 후 이용해주세요");
@@ -222,7 +266,6 @@
 		mateComList();
 		setInterval(function() {
 			console.log("동작중");
-			mateComList();
 		}, 5000);
 		
 		$("#mateSubmit").on("click", function() {
@@ -257,33 +300,112 @@
 				$tableBody.html("");
 				
 				var $tr;
-				var $button;
 				var $userId;
 				var $mateComContents;
 				var $mateComDate;
+				var $modifyCom;
+				var $mateComReply;
 				$("#mateComCount").text("댓글(" + data.length + ")");
 				if(data.length >0) {
 					for(var i in data) {
+						var mateComRefNo = data[i].mateComNo;
+						console.log(mateComRefNo);
+						
 						$tr = $("<tr>");
 						$userId = $("<td width='100'>").text(data[i].userId);
 						$mateComContents = $("<td>").text(decodeURIComponent(data[i].mateComContents).replace(/\+/g, " "));
 						$mateComDate = $("<td width='100'>").text(data[i].mateComDate);
-						$button = $("<button type='button'>수정하기")
+						$modifyCom = $("<td width='100'>")
+						.append("<button type='button' id='mateComReply' onclick='mateComReplyView(" +data[i].mateComNo+ ")'>답변달기</button>"
+						 +"<button type='button' onclick='mateComDelete()'>삭제</button>");
 						
 						$tr.append($userId);
 						$tr.append($mateComContents);
 						$tr.append($mateComDate);
-						$tr.append($button);
+						$tr.append($modifyCom);
 						$tableBody.append($tr);
+						
+						
 					}
 				} else {
 					$tr =$("<tr>");
 					$mateComContents = $("<td colspan='3'>").text("등록된 댓글이 없습니다.");
-					$tr.append($rContent);
+					$tr.append($mateComContents);
 					$tableBody.append($tr);
 				}
 			}
 		})
+	}
+	
+	//--------대댓글
+	function mateComReplyView(mateComNo) {
+		var rCount = 1;
+		$replyTableBody = $("#mateComReplyInsertTb");
+		$replyTableBody.html("");
+		if (rCount > 1) {
+			return false;
+		} else {
+			rCount++;
+			var replyTextArea = $('#mateComReplyInsertTb');
+			replyTextArea.append("<tr colspan='4'><td><div>"+mateComNo+ "번 댓글에 답변달기</div><textarea rows='3' cols='55' id='mateComReplyCon' placeholder='내용을 입력해주세요' resize:none;float:left;'></textarea>");
+			replyTextArea.append("<button type='button' id='mateComReply' onclick='mateComReplyInsert("+mateComNo+")'>답글등록</button><td></tr>");
+			rCount = 1;
+		}
+	}
+	function mateComReplyInsert(mateComNo) {
+			var mateComReplyCon = $('#mateComReplyCon').val();
+			var mateNo = ${mateOne.mateNo};
+			var mateRefNo = mateComNo;
+			console.log(mateRefNo);
+			console.log(mateNo);
+			$.ajax({
+				url : "addMateComReply.doa",
+				type : "post",
+				data : { "mateComContents" : mateComReplyCon, "mateNo" : mateNo, "mateComRefNo" : mateRefNo },
+				success : function(data) {
+					if(data == "success") {
+						$("#mateComReplyCon").val("");
+					}else {
+						alert("댓글 등록에 실패했습니다.");
+					}
+				}
+			}); 
+	}
+	function mateComReplyList() {
+		$.ajax({
+			url : "mateComReplyList.doa",
+			type : "get",
+			data : {"mateNo" : mateNo},
+			dataType : "json",
+			success : function (data2) {
+				$table = $("#mateComReplyTb");
+				$table.html("");
+				
+				var $rtr;
+				var $rId;
+				var $rContents;
+				var $rDate;
+				var $rBtn;
+				if(data.length >0) {
+					for(var i in data) {
+						var mateComRefNo = data2[i].mateComNo;
+						console.log(mateComRefNo);
+						
+						$rtr = $("<tr>");
+						$rId = $("<td width='100'>").text(data2[i].userId);
+						$rContents = $("<td>").text(decodeURIComponent(data2[i].mateComContents).replace(/\+/g, " "));
+						$rDate = $("<td width='100'>").text(data2[i].mateComDate);
+						$rBtn = $("<td width='100'>")
+						.append("<button type='button' id='mateComReply' onclick='mateComReplyView(" +data2[i].mateComNo+ ")'>답변달기</button>"
+						 +"<button type='button' onclick='mateComDelete()'>삭제</button>");
+						
+						$tr.append($userId);
+						$tr.append($mateComContents);
+						$tr.append($mateComDate);
+						$tr.append($modifyCom);
+						$table.append($tr);
+			} 
+		)} 
 	}
 	
 	//--------지도 
@@ -320,7 +442,6 @@
 	kakao.maps.event.addListener(marker, 'mouseover', function() {
 		searchDetailAddrFromCoords(marker, function(result, status) {
 	        if (status === kakao.maps.services.Status.OK) {
-	        	console.log(${llat})
 	            detailAddr = !!search ? '<div><b>장소 : ' + search + '</b></div>' : '';
 	            detailAddr += '<div> ' + result[0].address.address_name + '</div>'; 
 	            

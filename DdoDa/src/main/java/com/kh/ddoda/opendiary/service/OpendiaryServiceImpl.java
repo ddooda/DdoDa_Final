@@ -1,12 +1,15 @@
 package com.kh.ddoda.opendiary.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.ddoda.common.PageInfo;
 import com.kh.ddoda.common.Search;
+import com.kh.ddoda.opendiary.domain.DiaryImg;
 import com.kh.ddoda.opendiary.domain.Opendiary;
 import com.kh.ddoda.opendiary.domain.OpendiaryComment;
 import com.kh.ddoda.opendiary.store.OpendiaryStore;
@@ -23,49 +26,49 @@ public class OpendiaryServiceImpl implements OpendiaryService{
 	}
 
 	@Override
-	public ArrayList<Opendiary> odList(PageInfo pi) {
+	public ArrayList<Opendiary> opendList(PageInfo pi) {
 		// TODO Auto-generated method stub
-		return odStore.odList(pi);
+		return odStore.opendList(pi);
 	}
 
 	@Override
-	public Opendiary selectOndOd(int opendiaryNo) {
+	public Opendiary selectOndOpend(int opendiaryNo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int insertOd(Opendiary opendiary) {
+	public int insertOpend(Map<String, Object> parameters) {
+		// TODO Auto-generated method stub
+		return odStore.insertOpend(parameters);
+	}
+
+	@Override
+	public int updateOpend(Opendiary opendiary) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int updateOd(Opendiary opendiary) {
+	public int deleteOpend(int opendiaryNo) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int deleteOd(int opendiaryNo) {
+	public int insertOpendCom(OpendiaryComment opendiaryCom) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int insertOdCom(OpendiaryComment opendiaryCom) {
+	public int updateOpendCom(OpendiaryComment opendiaryCom) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int updateOdCom(OpendiaryComment opendiaryCom) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int deleteOdCom(int opendiaryNo) {
+	public int deleteOpendCom(int opendiaryNo) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -76,4 +79,13 @@ public class OpendiaryServiceImpl implements OpendiaryService{
 		return null;
 	}
 
+
+	//다이어리에 넣어준다.
+	public int insertDiary(Opendiary opendiary) {
+		return odStore.insertDiary(opendiary);
+	}
+	//사진을 넣어준다.
+	public int insertfileImg(HashMap<String, String> imgfile) {
+		return odStore.insertfileImg(imgfile);
+	}
 }

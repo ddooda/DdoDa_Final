@@ -1,6 +1,8 @@
 package com.kh.ddoda.opendiary.store;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.ddoda.common.PageInfo;
 import com.kh.ddoda.common.Search;
+import com.kh.ddoda.opendiary.domain.DiaryImg;
 import com.kh.ddoda.opendiary.domain.Opendiary;
 import com.kh.ddoda.opendiary.domain.OpendiaryComment;
 
@@ -24,48 +27,49 @@ public class OpendiaryStoreLogic implements OpendiaryStore{
 	}
 
 	@Override
-	public ArrayList<Opendiary> odList(PageInfo pi) {
+	public ArrayList<Opendiary> opendList(PageInfo pi) {
 		return (ArrayList)sqlSession.selectList("OpendiaryMapper.odList", pi);
 	}
 
 	@Override
-	public Opendiary selectOndOd(int opendiaryNo) {
+	public Opendiary selectOndOpend(int opendiaryNo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int insertOd(Opendiary opendiary) {
+	public int insertOpend(Map<String, Object> parameters) {
+		int result = sqlSession.insert("OpendiaryMapper.insertOpend",parameters);
+		System.out.println(result);
+		return  result;
+	}
+
+	@Override
+	public int updateOpend(Opendiary opendiary) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int updateOd(Opendiary opendiary) {
+	public int deleteOpend(int opendiaryNo) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int deleteOd(int opendiaryNo) {
+	public int insertOpendCom(OpendiaryComment opendiaryCom) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int insertOdCom(OpendiaryComment opendiaryCom) {
+	public int updateOpendCom(OpendiaryComment opendiaryCom) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int updateOdCom(OpendiaryComment opendiaryCom) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int deleteOdCom(int opendiaryNo) {
+	public int deleteOpendCom(int opendiaryNo) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -76,4 +80,13 @@ public class OpendiaryStoreLogic implements OpendiaryStore{
 		return null;
 	}
 
+	//다이어리에 넣어준다.
+		public int insertDiary(Opendiary opendiary) {
+			return sqlSession.insert("OpendiaryMapper.insertDiary", opendiary);
+		}
+		//사진을 넣어준다.
+		public int insertfileImg(HashMap<String, String> imgfile) {
+			return sqlSession.insert("OpendiaryMapper.insertImgFile", imgfile);
+		}
+	
 }

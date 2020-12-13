@@ -1,5 +1,7 @@
 package com.kh.ddoda.common;
 
+import com.kh.ddoda.common.PageInfo;
+
 public class Pagination {
 	
 	public static PageInfo getPageInfo(int currentPage, int listCount) {

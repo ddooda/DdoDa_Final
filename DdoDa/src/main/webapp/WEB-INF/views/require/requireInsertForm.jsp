@@ -27,7 +27,7 @@
 		<h2 class="main-name-h2">문의사항 작성</h2>
 	</div>
 	<div class="table-wrap">
-	<form action="requireInsert.doa" method="post" enctype="multipart/form-data">
+	<form action="requireInsert.doa" method="post" enctype="multipart/form-data" name="requireForm" onsubmit="return checkvalue();">
 		<table class="table">
 			<tr>
 				<td>제목</td>
@@ -61,5 +61,32 @@
 	<br><br><br>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<!-- end footer -->
+	<script>
+		function checkvalue() {
+			var requireInfo = document.requireForm;
+			if(!requireInfo.requireTitle.value){
+				alert("제목을 입력해주세요");
+				console.log(requireInfo.requireTitle.value)
+				return false;
+			}
+			if(!requireInfo.userId.value){
+				alert("아이디를 입력해주세요");
+				return false;
+			}
+			if(!requireInfo.requireContents.value){
+				alert("내용을 입력해주세요");
+				return false;
+			}
+			if( requireInfo.requireTitle.value != "" && requireInfo.requireContents.value != "") {
+				var ask = confirm("글 작성을 완료하시겠습니까?");
+				if (ask) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+			
+		}
+	</script>
 </body>
 </html>

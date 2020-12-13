@@ -53,6 +53,18 @@ public interface MateService {
 	 */
 	public int deleteMate(int mateNo);
 	/**
+	 * 메이트 삭제 시 마이메이트들도 모두 삭제
+	 * @param mateNo
+	 * @return
+	 */
+	public int deleteAllmyMate(int mateNo);
+	/**
+	 * 메이트 삭제 시 댓글들도 모두 삭제
+	 * @param mateNo
+	 * @return
+	 */
+	public int deleteAllMateCom(int mateNo);
+	/**
 	 * 메이트 모집인원 다 찾을 때 종료
 	 * @param mateNo
 	 * @return
@@ -83,11 +95,23 @@ public interface MateService {
 	 */
 	public int insertMateCom(MateComment mateCom);
 	/**
-	 * 메이트 댓글 리스트
+	 * 메이트 대댓글 삽입
 	 * @param mateCom
 	 * @return
 	 */
+	public int insertMateComReply(MateComment mateCom);
+	/**
+	 * 메이트 댓글 리스트
+	 * @param mateNo
+	 * @return
+	 */
 	public ArrayList<MateComment> selectMateCom(int mateNo);
+	/**
+	 * 메이트 대댓글 리스트
+	 * @param mateRefNo
+	 * @return
+	 */
+	public ArrayList<MateComment> selectMateComReply(int mateComRefNo);
 	/**
 	 * 메이트 댓글 수정
 	 * @param mateCom

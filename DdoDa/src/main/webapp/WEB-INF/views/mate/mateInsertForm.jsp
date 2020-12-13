@@ -131,7 +131,6 @@
 	
 	                    // 해당 주소에 대한 좌표를 받아서
 	                    var coords = new daum.maps.LatLng(result.y, result.x);
-	                    var num = coords.getY(); 
 	                    // 지도를 보여준다.
 	                    mapContainer.style.display = "block";
 	                    map.relayout();
@@ -139,13 +138,12 @@
 	                    map.setCenter(coords);
 	                    // 마커를 결과값으로 받은 위치로 옮긴다.
 	                    marker.setPosition(coords);
-	                    
-	                    console.log(num);
+	                    latlng = result.y +"_"+result.x;
+	                   console.log(result.y);
+	                   console.log(result.x);
+	                    $("#latLong").val(latlng);
 	                }
 	            });
-	            latlng = marker.getPosition().getLat() +"_"+marker.getPosition().getLng();
-        	    $("#latLong").val(latlng);
-	            
 	    		console.log(latlng); 
 	        }
 	    }).open();

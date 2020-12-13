@@ -28,11 +28,11 @@
 	<!-- content -->	
 	<div class="content" style="margin-left:5%;margin-right:5%;">
 	<h3 align="center">공유일기 글쓰기</h3>
-	<form id="fileForm" action="requireInsert.doa" method="post" enctype="multipart/form-data">
+	<form id="fileForm" action="opendiaryInsert.doa" method="post" name="opendiaryForm"  enctype="multipart/form-data" onsubmit="return checkvalue();">
 		<table class="table">
 			<tr>
 				<td>제목</td>
-				<td><input type="text" name="opendiaryTitle"></td>
+				<td><input type="text" name="opendiaryTitle" id="opendiaryTitle"></td>
 			</tr>
 			<tr>
 				<td>작성자</td>
@@ -40,7 +40,7 @@
 			</tr>		
 			<tr>
 				<td>내용</td>
-				<td><textarea cols="50" rows="7" name="opendiaryContents"></textarea></td>
+				<td><textarea cols="50" rows="7" name="opendiaryContents" id="opendiaryContents"></textarea></td>
 			</tr>
 			<tr>
 				<td>첨부파일</td>
@@ -55,14 +55,14 @@
 					<div class="form-group" id="file-list">
                             <button type="button" onclick="addFile()">파일추가</button>
                             <div class="file-group" >
-                                 <input type="file" name="fileImg[]" id="uploadfile">
+                                 <input type="file" name="fileImg" id="uploadfile">
                             </div>
                     </div>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center">
-					<input type="submit" value="등록하기" class="insert btn btn-primary"> &nbsp;
+					<input type="submit" id="submitBtn" value="등록하기" class="insert btn btn-primary"> &nbsp;
 					<a href="javascript:returnOpenList()">목록으로</a>
 				</td>
 			</tr>
@@ -78,12 +78,11 @@
 	<!-- end footer -->
 	
 	<script>
-		var count =1;
-	
+		var filecount = 1;
+		var max = 5;
 		function intaddBtn() {
 			alert("작동중"); 
 		}
-	
 		$(document).ready(function() {
 			/* var add = 'ADD'; */
 			var remove = 'REMOVE';
@@ -91,13 +90,14 @@
 	               e.preventDefault();
 	               deleteFile($(this));
 	           });
-
-			/* $("#fileupload").change(function() {
-				fileList = $("#fileupload").val().split('/').pop().split('\\').pop(); 
+			
+			 
+			/* $("#uploadfile").change(function() {
 				fileName = "";
 				fileName += "<div>"+ fileList +"<button type='button' id='remove'>" +remove+ "</button></div>";
-				console.log(fileList +", "+fileName);
-				$("#fileList").append(fileName); */
+				console.log(fileList );
+			}) */
+				/*$("#fileList").append(fileName); */
 				/* for(var i = 0; i < 5; i++) {
 					fileList = $("#fileupload")[0].files;  
 					fileListTag = [];
@@ -118,13 +118,13 @@
 		
 		
 		function addFile() {
-			var divlength = $(".file-group").length;
-	           console.log(divlength);
-	          	if (divlength > 4) {
+			var divCount = $(".file-group").length;
+			
+	          	if (divCount > 4) {
 	          		alert("5개까지만 업로드 가능합니다.");
 	          		return false;
 	          	}
-	           var str = "<div class='file-group'><input type='file' name='fileImg[]' id='uploadfile'><a href='#this' name='file-delete'>삭제</a></div>";
+	           var str = "<div class='file-group'><input type='file' name='fileImg' id='uploadfile'><a href='#this' class='btn' name='file-delete'>삭제</a></div>";
 	           $("#file-list").append(str);
 	           $("a[name='file-delete']").on("click", function(e) {
 	               e.preventDefault();
@@ -134,7 +134,6 @@
 		
 	       function deleteFile(obj) {
 	           obj.parent().remove();
-	           console.log(length);
 	       }
 	
 		function returnOpenList() {
@@ -142,6 +141,44 @@
 			if(answer) {
 				location.href="opendiaryList.doa";
 			}
+		}
+		
+		
+		function checkvalue() {
+			/* var odInfo = document.opendiaryForm; */
+			var divCount = $(".file-group").length;
+			/*
+			if(!odInfo.opendiaryTitle.value){
+				alert("제목을 입력해주세요");
+				return false;
+			}
+			if(!odInfo.userId.value){
+				alert("아이디를 입력해주세요");
+				return false;
+			}
+			if(!odInfo.opendiaryContents.value){
+				alert("내용을 입력해주세요");
+				return false; 
+			} */
+				var opendiaryTitle = $('#opendiaryTitle').val();
+				var opendiaryContents = $('#opendiaryContents').val();
+				/* var fCount = $("input[name='fileImg']").files.length;
+				
+				var fileImg = new Array(fCount);
+				var i;
+				for (i = 0; i< fCount ; i++) {
+					fileImg[i] = $("input[name='fileImg']").eq(i).val();
+					console.log(fileImg[i]);
+					console.log(divCount);
+				} */
+				
+				
+				if(opendiaryTitle == "" || opendiaryContents == "") {
+					alert("모두 작성해주세요");
+					return false;
+				}
+				return false;
+			
 		}
 	</script>
 </body>
