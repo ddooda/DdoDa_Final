@@ -77,7 +77,7 @@
 			</ul>
 		</div>
 		
-		<form action="requireUpdate.doa" method="post">
+		<form action="adminRequireUpdate.doa" method="post">
 			<input type="hidden" name="requireNo" value="${require.requireNo }">
 			<!-- 사용자 -->
 			<div style="width:450px; height:530px; border:1px solid red; float:left; margin-right:30px;">
@@ -97,11 +97,7 @@
 				  		<input type="text" name="rComTitle" value="${reply.rComTitle }">
 				  	</c:if>
 				  </div>
-				  <div class="card-header">작성자 : 
-				  	<c:if test="${!empty reply.userId }">
-				  		${reply.userId }
-				  	</c:if>
-				  </div>
+				  <div class="card-header">작성자 : ${loginUser.userId }</div>
 				  <div class="card-body">
 				  	<c:if test="${!empty reply.rComContents }">
 				  		<h5 class="card-title"><textarea style="width: 100%; height: 100%;" name="rComContents">${reply.rComContents }</textarea></h5>
